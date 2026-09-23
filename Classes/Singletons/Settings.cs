@@ -23,7 +23,7 @@ public partial class Settings : Node
 {
     private static Settings instance = null!;
     private static readonly string[] separator = ["\r\n", "\r", "\n"];
-    private int numberOfBlocks = 10;
+    private int numberOfBlocks = 3;
     private float measureOverlap;
     private bool metronomeFollowsGrid;
     private bool roundBPM;
