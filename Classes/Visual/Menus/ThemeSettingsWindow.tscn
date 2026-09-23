@@ -1,0 +1,177 @@
+[gd_scene load_steps=2 format=3 uid="uid://theme_settings_wnd"]
+
+[ext_resource type="Script" uid="uid://theme_settings_cs" path="res://Classes/Visual/Menus/ThemeSettingsWindow.cs" id="1_thmscs"]
+
+[node name="ThemeSettingsWindow" type="Window"
+ node_paths=PackedStringArray(
+   "backgroundPicker","timingPointPicker","selectionPicker",
+   "downbeatPicker","grid16Picker","grid12Picker","gridOtherPicker",
+   "presetDefaultButton","presetDarkButton","presetCyberpunkButton","presetSoftButton",
+   "okButton","applyButton","cancelButton")]
+title = "Theme Settings"
+size = Vector2i(460, 480)
+script = ExtResource("1_thmscs")
+backgroundPicker = NodePath("VBox/Colors/Background/ColorPickerButton")
+timingPointPicker = NodePath("VBox/Colors/TimingPoint/ColorPickerButton")
+selectionPicker = NodePath("VBox/Colors/Selection/ColorPickerButton")
+downbeatPicker = NodePath("VBox/Colors/Downbeat/ColorPickerButton")
+grid16Picker = NodePath("VBox/Colors/Grid16/ColorPickerButton")
+grid12Picker = NodePath("VBox/Colors/Grid12/ColorPickerButton")
+gridOtherPicker = NodePath("VBox/Colors/GridOther/ColorPickerButton")
+presetDefaultButton = NodePath("VBox/Presets/PresetDefault")
+presetDarkButton = NodePath("VBox/Presets/PresetDark")
+presetCyberpunkButton = NodePath("VBox/Presets/PresetCyberpunk")
+presetSoftButton = NodePath("VBox/Presets/PresetSoft")
+okButton = NodePath("VBox/Buttons/OkButton")
+applyButton = NodePath("VBox/Buttons/ApplyButton")
+cancelButton = NodePath("VBox/Buttons/CancelButton")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="PresetsLabel" type="Label" parent="VBox"]
+layout_mode = 2
+text = "Presets"
+theme_override_font_sizes/font_size = 15
+
+[node name="Presets" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+
+[node name="PresetDefault" type="Button" parent="VBox/Presets"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Default"
+
+[node name="PresetDark" type="Button" parent="VBox/Presets"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dark"
+
+[node name="PresetCyberpunk" type="Button" parent="VBox/Presets"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cyberpunk"
+
+[node name="PresetSoft" type="Button" parent="VBox/Presets"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Soft"
+
+[node name="Separator" type="HSeparator" parent="VBox"]
+layout_mode = 2
+
+[node name="ColorsLabel" type="Label" parent="VBox"]
+layout_mode = 2
+text = "Custom Colors"
+theme_override_font_sizes/font_size = 15
+
+[node name="Colors" type="VBoxContainer" parent="VBox"]
+layout_mode = 2
+
+[node name="Background" type="HBoxContainer" parent="VBox/Colors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Colors/Background"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Background"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBox/Colors/Background"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+
+[node name="TimingPoint" type="HBoxContainer" parent="VBox/Colors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Colors/TimingPoint"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Timing Point"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBox/Colors/TimingPoint"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+
+[node name="Selection" type="HBoxContainer" parent="VBox/Colors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Colors/Selection"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Selection"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBox/Colors/Selection"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+
+[node name="Downbeat" type="HBoxContainer" parent="VBox/Colors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Colors/Downbeat"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Grid – Downbeat"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBox/Colors/Downbeat"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+
+[node name="Grid16" type="HBoxContainer" parent="VBox/Colors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Colors/Grid16"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Grid – 16th note"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBox/Colors/Grid16"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+
+[node name="Grid12" type="HBoxContainer" parent="VBox/Colors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Colors/Grid12"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Grid – 12th note"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBox/Colors/Grid12"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+
+[node name="GridOther" type="HBoxContainer" parent="VBox/Colors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Colors/GridOther"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Grid – Other"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBox/Colors/GridOther"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+
+[node name="Buttons" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+
+[node name="OkButton" type="Button" parent="VBox/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OK"
+
+[node name="ApplyButton" type="Button" parent="VBox/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Apply"
+
+[node name="CancelButton" type="Button" parent="VBox/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
