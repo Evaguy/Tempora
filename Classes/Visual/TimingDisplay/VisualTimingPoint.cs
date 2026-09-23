@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Godot;
 using GD = Tempora.Classes.DataHelpers.GD;
 using Tempora.Classes.Utility;
+using Tempora.Classes.Utility;
 using Tempora.Classes.TimingClasses;
 //using System.Drawing;
 
@@ -49,10 +50,9 @@ public partial class VisualTimingPoint : Control
     private Color colorInvisible = new("ff990000");
 
     private Color lineColorRed = new("ff0000");
-    private Color lineColorDefault = GlobalConstants.TemporaYellow;
-    private Color lineColorSelection = new("ab0091");
-    //private Color lineColorNearestCursor = new("00d49c");
-    private Color lineColorNearestCursor = new("ff9900");
+    private Color lineColorDefault => Settings.Instance?.Theme.TimingPoint ?? GlobalConstants.TemporaYellow;
+    private Color lineColorSelection => Settings.Instance?.Theme.TimingPointSelection ?? new("ab0091");
+    private Color lineColorNearestCursor => Settings.Instance?.Theme.TimingPoint ?? new("ff9900");
 
     public float LineDefaultHeight = 0;
     private float lineDefaultWidth = 5;
@@ -105,16 +105,14 @@ public partial class VisualTimingPoint : Control
         VisibilityChanged += OnVisibilityChanged;
 
         flashTimer.Timeout += OnFlashTimerTimeout;
-        lineColorDefault = OffsetLine.DefaultColor;
         lineDefaultWidth = OffsetLine.Width;
+        GlobalEvents.Instance.ThemeChanged += (_, _) => UpdateLooks();
     }
 
     public override void _Input(InputEvent @event)
     {
         if (!Visible)
             return;
-
-        
 
         Vector2 mousePosition = GetLocalMousePosition();
         Rect2 rectangle = GrabArea.GetRect();
