@@ -1,4 +1,4 @@
-﻿// Copyright 2024 https://github.com/kongehund
+// Copyright 2024 https://github.com/kongehund
 // 
 // This file is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0).
 // You are free to:
@@ -214,7 +214,7 @@ public partial class Timing
         GlobalEvents.Instance.InvokeEvent(nameof(GlobalEvents.TimingChanged));
     }   
 
-    private void RemovePointsThatChangeNothing()
+    public void RemovePointsThatChangeNothing()
     {
         var pointsToDelete = new List<TimingPoint>();
 
@@ -231,10 +231,20 @@ public partial class Timing
                 pointsToDelete.Add(timingPoint);
         }
 
+        if (pointsToDelete.Count == 0)
+            return;
+
+        // Delete one by one using the internal method which handles MPS updates and events.
+        // Suppress individual mementos; we'll add one memento for the whole operation below.
+        bool savedHeldPointFlag = Context.Instance.HeldPointIsJustBeingAdded;
+        Context.Instance.HeldPointIsJustBeingAdded = true; // prevent per-delete mementos
         foreach (TimingPoint timingPoint in pointsToDelete)
         {
             DeleteTimingPoint(timingPoint);
         }
+        Context.Instance.HeldPointIsJustBeingAdded = savedHeldPointFlag;
+
+        MementoHandler.Instance.AddTimingMemento();
     }
 
     private void AddExtraPointsOnDownbeats()
