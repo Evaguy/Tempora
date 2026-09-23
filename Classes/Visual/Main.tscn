@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bk0ofb078cvgm"]
+[gd_scene load_steps=24 format=3 uid="uid://bk0ofb078cvgm"]
 
 [ext_resource type="Script" uid="uid://dusnn5jykij57" path="res://Classes/Visual/Main.cs" id="1_n5xe1"]
 [ext_resource type="AudioStream" uid="uid://2gpllbqn0qef" path="res://Audio/clickedy.mp3" id="2_k0owh"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bk2vtyro5t8k" path="res://Classes/Visual/Buttons/PopupMenuButton.tscn" id="3_mrr0o"]
 [ext_resource type="Script" uid="uid://cnwrkr36leku1" path="res://Classes/Visual/Scrollbars/BlockScrollBar.cs" id="5_aqu3i"]
 [ext_resource type="Script" uid="uid://b21cup1cc3md6" path="res://Classes/Visual/Menus/FileMenu.cs" id="5_kcxfp"]
+[ext_resource type="Script" uid="uid://dq8p3n4m7edit" path="res://Classes/Visual/Menus/EditMenu.cs" id="5_edtmn"]
 [ext_resource type="Script" uid="uid://cpunk8qer5c2n" path="res://Classes/Visual/Scrollbars/VolumeSlider.cs" id="6_w0n8n"]
 [ext_resource type="Script" uid="uid://bfw73tg26ghoq" path="res://Classes/Visual/Menus/OptionsMenu.cs" id="7_1c6ke"]
 [ext_resource type="Script" uid="uid://dc5qs5mnui2ft" path="res://Classes/Visual/Scrollbars/GridScrollBar.cs" id="7_i2h88"]
@@ -92,13 +93,30 @@ script = ExtResource("5_kcxfp")
 exportWindow = NodePath("../../../../ExportWindow")
 clearAllConfirmationDialog = NodePath("../../../../ClearAllConfirmationDialog")
 
+[node name="EditButton" parent="VSplitContainer/TopMenuHBox" node_paths=PackedStringArray("popupMenu") instance=ExtResource("3_mrr0o")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Edit"
+popupMenu = NodePath("Edit")
+
+[node name="Edit" type="PopupMenu" parent="VSplitContainer/TopMenuHBox/EditButton" node_paths=PackedStringArray("clearAllConfirmationDialog")]
+title = "Edit"
+theme_override_font_sizes/font_size = 16
+item_count = 2
+item_0/text = "Clear All Timing Points"
+item_0/id = 0
+item_1/text = "Remove Redundant Timing Points"
+item_1/id = 1
+script = ExtResource("5_edtmn")
+clearAllConfirmationDialog = NodePath("../../../../ClearAllConfirmationDialog")
+
 [node name="OptionsButton" parent="VSplitContainer/TopMenuHBox" node_paths=PackedStringArray("popupMenu") instance=ExtResource("3_mrr0o")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Options"
 popupMenu = NodePath("Options")
 
-[node name="Options" type="PopupMenu" parent="VSplitContainer/TopMenuHBox/OptionsButton" node_paths=PackedStringArray("blockAmountScrollBar", "offsetScrollBar", "overlapScrollBar", "visualSettingsWindow")]
+[node name="Options" type="PopupMenu" parent="VSplitContainer/TopMenuHBox/OptionsButton" node_paths=PackedStringArray("offsetScrollBar", "overlapScrollBar", "visualSettingsWindow")]
 title = "Options"
 size = Vector2i(268, 100)
 theme_override_constants/v_separation = 0
@@ -129,7 +147,6 @@ item_6/id = 6
 item_7/text = "Spectrogram Settings..."
 item_7/id = 7
 script = ExtResource("7_1c6ke")
-blockAmountScrollBar = NodePath("../../SettingsHBox/BlockAmountScrollBar")
 offsetScrollBar = NodePath("../../SettingsHBox/OffsetScrollBar")
 overlapScrollBar = NodePath("../../SettingsHBox/OverlapScrollBar")
 visualSettingsWindow = NodePath("../../../../VisualSettingsWindow")
@@ -168,7 +185,6 @@ minValue = 0.1
 tooltip_text = "Playback rate. Press X to toggle between two states."
 
 [node name="BlockAmountScrollBar" parent="VSplitContainer/TopMenuHBox/SettingsHBox" instance=ExtResource("8_6ej7c")]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("9_22ufa")
