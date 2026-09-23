@@ -225,6 +225,13 @@ public partial class Settings : Node
     public bool OmitBarlines = true;
     public bool PreventDoubleBarlines = true;
     public bool ShowMoreSettings = false;
+
+    #region Theme
+    /// <summary>
+    /// Active theme. Mutate its properties or replace the whole object, then fire ThemeChanged.
+    /// </summary>
+    public ThemeSettings Theme { get; set; } = ThemeSettings.PresetDefault();
+    #endregion
     public double MusicVolumeNormalized
     {
         get => musicVolumeNormalized;
@@ -309,7 +316,14 @@ public partial class Settings : Node
         SpectrogramFftSize,
         SpectrogramMaxFreq,
         SpectrogramIntensity,
-        SpectrogramUseDb
+        SpectrogramUseDb,
+        ThemeBackground,
+        ThemeTimingPoint,
+        ThemeTimingPointSelection,
+        ThemeGridDownbeat,
+        ThemeGrid16th,
+        ThemeGrid12th,
+        ThemeGridOther,
     }
     private Dictionary<Setting, string> settingStrings = new()
        {
@@ -342,7 +356,14 @@ public partial class Settings : Node
         {Setting.SpectrogramFftSize, "SpectrogramFftSize"},
         {Setting.SpectrogramMaxFreq, "SpectrogramMaxFreq"},
         {Setting.SpectrogramIntensity, "SpectrogramIntensity"},
-        {Setting.SpectrogramUseDb, "SpectrogramUseDb" }
+        {Setting.SpectrogramUseDb, "SpectrogramUseDb" },
+        {Setting.ThemeBackground, "ThemeBackground"},
+        {Setting.ThemeTimingPoint, "ThemeTimingPoint"},
+        {Setting.ThemeTimingPointSelection, "ThemeTimingPointSelection"},
+        {Setting.ThemeGridDownbeat, "ThemeGridDownbeat"},
+        {Setting.ThemeGrid16th, "ThemeGrid16th"},
+        {Setting.ThemeGrid12th, "ThemeGrid12th"},
+        {Setting.ThemeGridOther, "ThemeGridOther"},
        };
     private int spectrogramIntensity = 5;
     private int spectrogramMaxFreq = 2200;
@@ -496,6 +517,27 @@ public void LoadSettings()
                     _ = bool.TryParse(lineSplit[1], out parsedBool);
                     SpectrogramUseDb = parsedBool;
                     break;
+                case var value when value == settingStrings[Setting.ThemeBackground]:
+                    Theme.Background = new Godot.Color(lineSplit[1]);
+                    break;
+                case var value when value == settingStrings[Setting.ThemeTimingPoint]:
+                    Theme.TimingPoint = new Godot.Color(lineSplit[1]);
+                    break;
+                case var value when value == settingStrings[Setting.ThemeTimingPointSelection]:
+                    Theme.TimingPointSelection = new Godot.Color(lineSplit[1]);
+                    break;
+                case var value when value == settingStrings[Setting.ThemeGridDownbeat]:
+                    Theme.GridDownbeat = new Godot.Color(lineSplit[1]);
+                    break;
+                case var value when value == settingStrings[Setting.ThemeGrid16th]:
+                    Theme.Grid16th = new Godot.Color(lineSplit[1]);
+                    break;
+                case var value when value == settingStrings[Setting.ThemeGrid12th]:
+                    Theme.Grid12th = new Godot.Color(lineSplit[1]);
+                    break;
+                case var value when value == settingStrings[Setting.ThemeGridOther]:
+                    Theme.GridOther = new Godot.Color(lineSplit[1]);
+                    break;
             }
         }
     }
@@ -532,6 +574,13 @@ public void SaveSettings()
         settingsFile += GetSettingsFileLine(settingStrings[Setting.SpectrogramMaxFreq], SpectrogramMaxFreq.ToString());
         settingsFile += GetSettingsFileLine(settingStrings[Setting.SpectrogramIntensity], SpectrogramIntensity.ToString());
         settingsFile += GetSettingsFileLine(settingStrings[Setting.SpectrogramUseDb], SpectrogramUseDb.ToString());
+        settingsFile += GetSettingsFileLine(settingStrings[Setting.ThemeBackground], Theme.Background.ToHtml(false));
+        settingsFile += GetSettingsFileLine(settingStrings[Setting.ThemeTimingPoint], Theme.TimingPoint.ToHtml(false));
+        settingsFile += GetSettingsFileLine(settingStrings[Setting.ThemeTimingPointSelection], Theme.TimingPointSelection.ToHtml(false));
+        settingsFile += GetSettingsFileLine(settingStrings[Setting.ThemeGridDownbeat], Theme.GridDownbeat.ToHtml(false));
+        settingsFile += GetSettingsFileLine(settingStrings[Setting.ThemeGrid16th], Theme.Grid16th.ToHtml(false));
+        settingsFile += GetSettingsFileLine(settingStrings[Setting.ThemeGrid12th], Theme.Grid12th.ToHtml(false));
+        settingsFile += GetSettingsFileLine(settingStrings[Setting.ThemeGridOther], Theme.GridOther.ToHtml(false));
         FileHandler.SaveText(settingsPath, settingsFile);
     }
 
