@@ -39,6 +39,9 @@ public partial class EditMenu : PopupMenu
             case 0:
                 clearAllConfirmationDialog.Popup();
                 break;
+            case 1:
+                Timing.Instance.RemovePointsThatChangeNothing();
+                break;
         }
     }
 
