@@ -48,6 +48,7 @@ public partial class AudioBlock : Control
     public override void _Ready()
     {
         GlobalEvents.Instance.TimingChanged += OnTimingChanged;
+        GlobalEvents.Instance.ThemeChanged += (_, _) => UpdateDisplay();
 
         VisibilityChanged += OnVisibilityChanged;
 
