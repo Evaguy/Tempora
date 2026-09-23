@@ -56,6 +56,7 @@ public partial class Main : Control
 		    Project.Instance.AudioFile = new AudioFile(defaultMP3);
 
 		GlobalEvents.Instance.SettingsChanged += OnSettingsChanged;
+		GlobalEvents.Instance.ThemeChanged += (_, _) => ApplyTheme();
 		audioVisualsContainer.SeekPlaybackTime += OnSeekPlaybackTime;
 		GetTree().Root.FilesDropped += OnFilesDropped;
 
@@ -63,7 +64,7 @@ public partial class Main : Control
 		blockScrollBar.UpdateLimits();
 		audioVisualsContainer.UpdateBlocksScroll();
 
-        backgroundColorRect.Color = GlobalConstants.TemporaBlue;
+        ApplyTheme();
 
 		MementoHandler.Instance.AddTimingMemento();
 	}
@@ -94,6 +95,8 @@ public partial class Main : Control
 			ReleaseFocus();
 		}
 	}
+
+	private void ApplyTheme() => backgroundColorRect.Color = GlobalConstants.TemporaBlue;
 
 	private void OnSettingsChanged(object? sender, EventArgs e) => audioVisualsContainer.UpdateNumberOfVisibleBlocks();
 
