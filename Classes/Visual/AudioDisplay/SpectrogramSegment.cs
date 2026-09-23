@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Security.AccessControl;
 using Godot;
 using Spectrogram;
@@ -40,7 +40,10 @@ public partial class SpectrogramSegment : Sprite2D, IAudioSegmentDisplay
         }
     }
 
-    private Colormap defaultColormap = new Colormap(new CustomColormap(new List<Godot.Color> { GlobalConstants.TemporaBlue, new("ffffff") }));
+    private Colormap BuildColormap() =>
+        new Colormap(new CustomColormap(new List<Godot.Color> { GlobalConstants.TemporaBlue, new("ffffff") }));
+
+    private Colormap defaultColormap;
 
     public float Width { get; set; } = 400;
 
@@ -58,6 +61,8 @@ public partial class SpectrogramSegment : Sprite2D, IAudioSegmentDisplay
 
     public override void _Ready()
     {
+        defaultColormap = BuildColormap();
+        GlobalEvents.Instance.ThemeChanged += (_, _) => { defaultColormap = BuildColormap(); Render(); };
         Render();
     }
 
