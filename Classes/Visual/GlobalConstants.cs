@@ -10,16 +10,20 @@
 // - NoDerivatives - If you remix, transform, or build upon the material, you may not distribute the modified material.
 //
 // Full license text is available at: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
-
 using Godot;
+using Tempora.Classes.Utility;
 
 namespace Tempora.Classes.Visual;
 
 public readonly struct GlobalConstants
 {
     public GlobalConstants() { }
-    public static readonly Color TemporaYellow = new("ff9900");
-    public static readonly Color TemporaBlue = new("002630");
+
+    // Theme-driven colors — read from Settings at call time so they react to theme changes
+    public static Color TemporaYellow => Settings.Instance?.Theme.TimingPoint ?? new("ff9900");
+    public static Color TemporaBlue => Settings.Instance?.Theme.Background ?? new("002630");
+
+    // Waveform colors stay constant
     public static readonly Color AudioFullExposure = new(1f, 1f, 1f);
     public static readonly Color AudioDarkened = new(0.5f, 0.5f, 0.5f);
 }
