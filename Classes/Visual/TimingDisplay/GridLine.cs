@@ -13,6 +13,7 @@
 
 using Godot;
 using Tempora.Classes.TimingClasses;
+using Tempora.Classes.Utility;
 using Color = Godot.Color;
 
 namespace Tempora.Classes.Visual;
@@ -29,10 +30,10 @@ public partial class GridLine : Line2D
     private float largeHeight = 0.5f;
     private float smallHeight = 0.2f;
 
-    private Color color_Unspecified = new Color(0, 0, 0.7f, 1f);
-    private Color color_Downbeat = new Color(1f, 0.2f, 0.2f, 1f);
-    private Color color_16 = new Color(0.7f, 0, 0, 1f);
-    private Color color_12 = new Color("7572ff");
+    private Color color_Unspecified => Settings.Instance?.Theme.GridOther ?? new Color(0, 0, 0.7f, 1f);
+    private Color color_Downbeat => Settings.Instance?.Theme.GridDownbeat ?? new Color(1f, 0.2f, 0.2f, 1f);
+    private Color color_16 => Settings.Instance?.Theme.Grid16th ?? new Color(0.7f, 0, 0, 1f);
+    private Color color_12 => Settings.Instance?.Theme.Grid12th ?? new Color("7572ff");
 
     public GridLine(int[] timeSignature, int divisor, int index, float audioHeight)
     {
@@ -41,15 +42,17 @@ public partial class GridLine : Line2D
         DivisionIndex = index;
         this.audioHeight = audioHeight;
         RelativeMeasurePosition = Timing.GetRelativeNotePosition(timeSignature, divisor, index);
-        //new ColorConverter();
 
         DefaultColor = color_Unspecified;
-        //DefaultColor = (Godot.Color) converter.ConvertFromString("#FFDFD991");
-
         Width = 5;
 
         UpdateColor();
         UpdatePoints();
+    }
+
+    public override void _Ready()
+    {
+        GlobalEvents.Instance.ThemeChanged += (_, _) => UpdateColor();
     }
 
     private void UpdateColor()
