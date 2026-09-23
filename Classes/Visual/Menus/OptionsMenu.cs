@@ -20,8 +20,6 @@ namespace Tempora.Classes.Visual;
 public partial class OptionsMenu : PopupMenu
 {
 	[Export]
-	private Control blockAmountScrollBar = null!;
-	[Export]
 	private Control offsetScrollBar = null!;
 	[Export]
 	private Control overlapScrollBar = null!;
@@ -38,6 +36,7 @@ public partial class OptionsMenu : PopupMenu
 		SetItemChecked(index_RoundBPM, Settings.Instance.RoundBPM);
         SetItemChecked(index_PlaybackOnNewPoints, Settings.Instance.SeekPlaybackOnTimingPointChanges);
         SetItemChecked(index_MoreSettings, Settings.Instance.ShowMoreSettings);
+        ShowHideMoreSettings(Settings.Instance.ShowMoreSettings);
         SetItemChecked(index_Spectrogram, Settings.Instance.RenderAsSpectrogram);
 	}
 
@@ -97,7 +96,6 @@ public partial class OptionsMenu : PopupMenu
 
 	private void ShowHideMoreSettings(bool visible)
 	{
-		blockAmountScrollBar.Visible = visible;
 		offsetScrollBar.Visible = visible;
 		overlapScrollBar.Visible = visible;
 	}
