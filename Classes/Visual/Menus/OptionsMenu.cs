@@ -25,6 +25,8 @@ public partial class OptionsMenu : PopupMenu
 	private Control overlapScrollBar = null!;
     [Export]
     private Window visualSettingsWindow = null!;
+    [Export]
+    private Window themeSettingsWindow = null!;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -48,6 +50,7 @@ public partial class OptionsMenu : PopupMenu
     int index_PlaybackOnNewPoints = 5;
     int index_Spectrogram = 6;
     int index_SpectrogramSettings = 7;
+    int index_ThemeSettings = 8;
 
 	private void OnIndexPressed(long index)
 	{
@@ -83,6 +86,9 @@ public partial class OptionsMenu : PopupMenu
                 break;
             case var expression when (index == index_SpectrogramSettings):
                 visualSettingsWindow.Popup();
+                break;
+            case var expression when (index == index_ThemeSettings):
+                themeSettingsWindow.Popup();
                 break;
         }
 	}
