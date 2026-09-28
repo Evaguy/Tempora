@@ -12,6 +12,7 @@
 // Full license text is available at: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Godot;
 using Tempora.Classes.Audio;
@@ -69,12 +70,20 @@ public partial class Project : Node
             if (audioFile == value)
                 return;
             audioFile = value;
+            ImportedGreenLines = [];
             UpdateSpectrogramContextFromSettings();
             GlobalEvents.Instance.InvokeEvent(nameof(GlobalEvents.Instance.AudioFileChanged), this, EventArgs.Empty);
         }
     }
 
     public SpectrogramContext SpectrogramContext { get; set; } = null!;
+
+    /// <summary>
+    /// Raw green-line strings preserved verbatim from the last imported .osu/.osz file.
+    /// Re-emitted unchanged during export so SV and volume changes are not lost.
+    /// Cleared when a new audio file is loaded or a new project is started.
+    /// </summary>
+    public List<string> ImportedGreenLines { get; set; } = [];
 
     public void UpdateSpectrogramContextFromSettings()
     {
