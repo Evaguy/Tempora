@@ -17,6 +17,7 @@ using Godot;
 using Tempora.Classes.Audio;
 using Tempora.Classes.Utility;
 using Tempora.Classes.TimingClasses;
+using Tempora.Classes.DataHelpers;
 using System.IO;
 
 // Tempora
@@ -114,6 +115,14 @@ public partial class Main : Control
             case var value when isAudioFile:
 		        var audioFile = new AudioFile(path);
 		        Project.Instance.AudioFile = audioFile;
+                break;
+            case ".osu":
+                if (!OsuImporter.TryImportFromOsuFile(path, out string osuError))
+                    GD.PrintErr($"[OsuImporter] {osuError}");
+                break;
+            case ".osz":
+                if (!OsuImporter.TryImportFromOszFile(path, out string oszError))
+                    GD.PrintErr($"[OsuImporter] {oszError}");
                 break;
         }
 	}
