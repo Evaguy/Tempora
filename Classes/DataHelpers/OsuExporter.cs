@@ -15,9 +15,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using Godot;
 using Tempora.Classes.Audio;
 using Tempora.Classes.TimingClasses;
+using Tempora.Classes.Utility;
 
 namespace Tempora.Classes.Utility;
 
@@ -108,14 +110,35 @@ SliderTickRate:1
         if (timing.TimingPoints == null)
             throw new NullReferenceException("timing.TimingPoints was null");
 
-        string result = "";
-
+        // Build red lines with their offset in ms so we can interleave with green lines
+        var redLines = new List<(float OffsetMs, string Line)>();
         for (int i = 0; i < timing.TimingPoints!.Count; i++)
         {
             var timingPoint = timing.TimingPoints[i];
-            TimingPoint? previousTimingPoint = i > 0 ? timing.TimingPoints?[i - 1] : null;
-            result += TimingPointToDotOsuLine(timingPoint);
+            float offsetMs = (float)(timingPoint.Offset * 1000) + exportOffsetMs;
+            redLines.Add((offsetMs, TimingPointToDotOsuLine(timingPoint)));
         }
+
+        // Parse green line offsets so we can sort everything together
+        var greenLines = new List<(float OffsetMs, string Line)>();
+        foreach (string raw in Project.Instance.ImportedGreenLines)
+        {
+            string[] parts = raw.Split(',');
+            if (parts.Length < 1) continue;
+            if (float.TryParse(parts[0].Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out float gOffsetMs))
+                greenLines.Add((gOffsetMs, raw));
+        }
+
+        // Merge and sort by offset; red lines win ties (stable sort puts them first)
+        var merged = redLines
+            .Select(r => (r.OffsetMs, r.Line, IsGreen: false))
+            .Concat(greenLines.Select(g => (g.OffsetMs, g.Line, IsGreen: true)))
+            .OrderBy(x => x.OffsetMs)
+            .ThenBy(x => x.IsGreen); // red before green at same offset
+
+        string result = "";
+        foreach (var entry in merged)
+            result += entry.Line + (entry.Line.EndsWith('\n') ? "" : "\n");
 
         return result;
     }
