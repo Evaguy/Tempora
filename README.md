@@ -10,8 +10,9 @@ will write a readme when im not lazy lel
 - [ ] write README.md
 
 ### DOING
-- [ ] Reverse/Importing Existing .osu Files
+nohting atm
 
 ### DONE
 - [x] Themes
 - [x] Cleanup Redundant Timing Points
+- [x]  Reverse/Importing Existing .osu Files
